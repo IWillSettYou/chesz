@@ -8,16 +8,34 @@
     <generator v-if="y % 2 != 0">
       <kocka v-for="i in 8" :key="i">
         <div v-if="i % 2 != 0">
-            <white>
-                <center>
-                    {{ board.getPiece( {x:i, y:y }) }}
+            <white class="color">
+                <center class="center">
+                    <img 
+                    :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
+                    draggable   
+                    width="60"
+                    height="60"
+                    
+                    :data-x="y" :data-y="i"
+                    class="draggable"
+                    >
                 </center>
             </white>
         </div>
         <div v-else>
-            <black>
-                    {{ board.getPiece( {x:i, y:y }) }}
-
+            <black class="color">
+            
+            <center class="center">
+                    <img 
+                    :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
+                    
+                    draggable   
+                    width="60"
+                    height="60"
+                    :data-x="y" :data-y="i"
+                    class="draggable"
+                    >
+                </center>
             </black>
         </div>
       </kocka>
@@ -28,19 +46,32 @@
     <generator v-else>
     <kocka v-for="i in 8" :key="i">
         <div v-if="i % 2 != 0">
-            <black >
-                <center>
-                    {{ board.getPiece( {x:i, y:y }) }}
-
+            <black  class="color">
+                <center class="center">
+                    <img 
+                    
+                    :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
+                    draggable   
+                    width="60"
+                    height="60"
+                    :data-x="y" :data-y="i"
+                    class="draggable"
+                    >
                 </center>
             </black>
         </div>
         <div v-else>
-            <white>
-                
-                <center>
-                    {{ board.getPiece( {x:i, y:y }) }}
-
+            <white class="color">
+<center class="center">
+                    <img 
+                    :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
+                    draggable   
+                    width="60"
+                    height="60"
+                    
+                    :data-x="y" :data-y="i"
+                    class="draggable"
+                    >
                 </center>
             </white>
             
@@ -63,24 +94,107 @@ import { Board } from "../game/Board";
 export default {
     data(){
         return{
-        board: new Board()
+        board: new Board(),
+        dragging: null,
         }
     },
-
-  
     async created(){
-
         this.board.initPieces();
+    },
+    methods: 
+    {
+        asd(el){
+            console.log("started draggin gdeey nuzts")
+            console.log(el)
+        },
+        dragenterped(el){
+            console.log("dragenterped")
+            console.log(el.target.dataset.x)
+        }
 
-        console.log(this.board.getPiece({x:0,y:1}));
     }
 }
+document.addEventListener('DOMContentLoaded', (event) => {
+
+            var dragSrcEl = null;
+            
+            function handleDragStart(e) {
+              
+              this.style.opacity = '0.4';
+              
+              dragSrcEl = this;
+              
+              
+              e.dataTransfer.effectAllowed = 'move';
+              e.dataTransfer.setData('text/html', JSON.stringify({content: this.innerHTML}));
+            }
+          
+            function handleDragOver(e) {
+              if (e.preventDefault) {
+                e.preventDefault();
+              }
+          
+              e.dataTransfer.dropEffect = 'move';
+              return false;
+            }
+          
+            function handleDragEnter(e) {
+              this.classList.add('over');
+            }
+          
+            function handleDragLeave(e) {
+              this.classList.remove('over');
+            }
+          
+            function handleDrop(e) {
+              if (e.stopPropagation) {
+                e.stopPropagation(); // stops the browser from redirecting.
+              }
+              
+
+              console.log(dragSrcEl)
+              
+               if (dragSrcEl != this) {
+                //dragSrcEl.innerHTML = this.innerHTML;
+                //this.innerHTML = e.dataTransfer.getData('text/html');
+                let draggedData = JSON.parse(e.dataTransfer.getData('text/html'));
+                
+                let droppedData = {content: this.innerHTML};
+
+                this.innerHTML = draggedData.content;
+
+                dragSrcEl.innerHTML = droppedData.content;
+
+              }
+              
+              return false;
+            }
+          
+            function handleDragEnd(e) {
+              this.style.opacity = '1';
+              
+              items.forEach(function (item) {
+                item.classList.remove('over');
+              });
+            }
+            
+            
+            let items = document.querySelectorAll('.color .center');
+    // kys barna
+console.log(items)
+            items.forEach(function(item) {
+              item.addEventListener('dragstart', handleDragStart, false);
+              item.addEventListener('dragenter', handleDragEnter, false);
+              item.addEventListener('dragover', handleDragOver, false);
+              item.addEventListener('dragleave', handleDragLeave, false);
+              item.addEventListener('drop', handleDrop, false);
+              item.addEventListener('dragend', handleDragEnd, false);
+            });
+
+          });
 </script>
 
 <style scoped>
-
-
-
 tabla {
     height: 50%;
     width: fit-content;
@@ -91,7 +205,7 @@ tabla {
     }
 
 black{
-    background-color: black;
+    background-color: gray;
     height: 5em;
     width: 5em;
     

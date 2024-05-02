@@ -8,9 +8,5 @@ export class Chess {
         return []
     }
   
-    public getPosStatus(position: Position): Piece[] {
-        return this.pieces.filter((piece: Piece)=> {
-            piece.CurrentPosition == position;
-        })
-    }
+  
 }

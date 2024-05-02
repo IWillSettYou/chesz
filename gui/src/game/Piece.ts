@@ -58,4 +58,7 @@ export class Piece {
     public getName(): String{
      return this.type.toString()
     }
+    public getImagePath(): String {
+        return this.type + this.Color.toString() + ".png"
+    }
 }
