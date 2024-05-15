@@ -10,15 +10,22 @@
         <div v-if="i % 2 != 0">
             <white class="color">
                 <center class="center">
+                      <div v-if="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath()"
+                      class="draggable"
+                      draggable>
                     <img 
+    
                     :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
-                    draggable   
-                    width="60"
-                    height="60"
+                     
+  
                     
                     :data-x="y" :data-y="i"
-                    class="draggable"
+
                     >
+  </div>
+  <div v-else class="draggable"
+  
+><img src="/public/empty1.png" class="trans"></div>
                 </center>
             </white>
         </div>
@@ -26,15 +33,22 @@
             <black class="color">
             
             <center class="center">
+                      <div v-if="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath()" class="draggable">
                     <img 
+    
                     :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
-                    
-                    draggable   
+                      
                     width="60"
                     height="60"
+                    
                     :data-x="y" :data-y="i"
-                    class="draggable"
+
                     >
+  </div>
+  <div v-else class="draggable"
+  
+  width="60"
+  height="60"><img src="/public/empty1.png" class="trans"></div>
                 </center>
             </black>
         </div>
@@ -48,30 +62,43 @@
         <div v-if="i % 2 != 0">
             <black  class="color">
                 <center class="center">
+                   <div v-if="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath()" class="draggable">
                     <img 
                     
                     :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
-                    draggable   
+                     
                     width="60"
                     height="60"
                     :data-x="y" :data-y="i"
-                    class="draggable"
                     >
+                   </div>
+                   <div v-else class="draggable"
+  
+  width="60"
+  height="60"><img src="/public/empty1.png" class="trans"></div>
                 </center>
             </black>
         </div>
-        <div v-else>
+        <div v-else >
             <white class="color">
 <center class="center">
+  <div v-if="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath()" class="draggable">
                     <img 
+    
                     :src="board.getPiece({x:y, y:i}) && board.getPiece({x:y, y:i}).getImagePath() " 
-                    draggable   
+                      
                     width="60"
                     height="60"
                     
                     :data-x="y" :data-y="i"
-                    class="draggable"
                     >
+  </div>
+  <div v-else class="draggable"
+  
+  width="60"
+  height="60"
+  > <img src="/public/empty1.png" class="trans">
+  </div>
                 </center>
             </white>
             
@@ -120,7 +147,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             
             function handleDragStart(e) {
               
-              this.style.opacity = '0.4';
+           
               
               dragSrcEl = this;
               
@@ -153,6 +180,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
               
 
               console.log(dragSrcEl)
+              console.log(this)
               
                if (dragSrcEl != this) {
                 //dragSrcEl.innerHTML = this.innerHTML;
@@ -171,7 +199,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
           
             function handleDragEnd(e) {
-              this.style.opacity = '1';
+              
               
               items.forEach(function (item) {
                 item.classList.remove('over');
@@ -179,7 +207,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
             
             
-            let items = document.querySelectorAll('.color .center');
+            let items = document.querySelectorAll('.color .center .draggable');
     // kys barna
 console.log(items)
             items.forEach(function(item) {
@@ -220,6 +248,22 @@ height: 5em;
 }
 *{
     display: block;
+}
+.draggable{
+  width: 100%;
+  height: 100%;
+  display: flex;
+   align-items: center;
+  justify-content: center;
+  
+}
+.trans{
+  opacity: 100%;
+
+  height: 5em
+}
+[draggable]{ /*disable text selection*/
+    user-select: none;
 }
 
 </style>
