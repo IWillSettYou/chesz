@@ -25,7 +25,7 @@
   </div>
   <div v-else class="draggable"
   
-><img src="/public/empty1.png" class="trans"></div>
+><img src="/public/empty.png" class="trans"></div>
                 </center>
             </white>
         </div>
@@ -48,7 +48,7 @@
   <div v-else class="draggable"
   
   width="60"
-  height="60"><img src="/public/empty1.png" class="trans"></div>
+  height="60"><img src="/public/empty.png" class="trans"></div>
                 </center>
             </black>
         </div>
@@ -75,7 +75,7 @@
                    <div v-else class="draggable"
   
   width="60"
-  height="60"><img src="/public/empty1.png" class="trans"></div>
+  height="60"><img src="/public/empty.png" class="trans"></div>
                 </center>
             </black>
         </div>
@@ -97,7 +97,7 @@
   
   width="60"
   height="60"
-  > <img src="/public/empty1.png" class="trans">
+  > <img src="/public/empty.png" class="trans">
   </div>
                 </center>
             </white>
@@ -178,13 +178,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 e.stopPropagation(); // stops the browser from redirecting.
               }
               
-
-              console.log(dragSrcEl)
-              console.log(this)
-              
+               console.log(this,dragSrcEl)
                if (dragSrcEl != this) {
                 //dragSrcEl.innerHTML = this.innerHTML;
                 //this.innerHTML = e.dataTransfer.getData('text/html');
+                let thisTargetImg = this.querySelector('img');
+                let thisTargetSrc = thisTargetImg ? thisTargetImg.src : null;
+                console.log('This:', thisTargetSrc); //38 char
+                let thisColor = thisTargetSrc[thisTargetSrc.length - 5]
+                console.log(thisColor)
+
+                
+                let dragTargetImg = dragSrcEl.querySelector('img')
+                let dragTargetSrc = dragTargetImg ? dragTargetImg.src : null
+                console.log('Drag:',dragTargetSrc)
+                let dragColor = dragTargetSrc[dragTargetSrc.length - 5]
+                console.log(dragColor)
+
+                let emtpySource = "http://localhost:5173/public/empty.png"
+
+                //condition start
+                if(dragColor == thisColor ) return
+
+                if(dragColor != thisColor){
+                  this.querySelector('img').src = emtpySource
+                }
+
                 let draggedData = JSON.parse(e.dataTransfer.getData('text/html'));
                 
                 let droppedData = {content: this.innerHTML};
@@ -192,6 +211,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 this.innerHTML = draggedData.content;
 
                 dragSrcEl.innerHTML = droppedData.content;
+        
 
               }
               
